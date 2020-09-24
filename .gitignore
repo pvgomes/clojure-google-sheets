@@ -12,3 +12,5 @@ pom.xml.asc
 .hg/
 /resources/credentials.json
 /tokens
+.idea/
+*.iml
