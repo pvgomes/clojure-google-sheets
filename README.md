@@ -29,6 +29,11 @@ Now that we can read at least a sample spreadsheet lets do more, but to do it, w
 
 For more examples, look at my [YouTube channel](https://www.youtube.com/channel/UCH6lFcii0mXxcZkDg9AUurw)
 
+### Tests
+```
+lein test
+```
+
 ## License
 
 Copyright © 2020 FIXME
