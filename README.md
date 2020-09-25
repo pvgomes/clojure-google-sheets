@@ -2,6 +2,8 @@
 
 A clojure google sheets integration example, based on [java quickstart start](https://developers.google.com/sheets/api/quickstart/java) with way more examples
 
+[![Build Status](https://travis-ci.org/pvgomes/clojure-google-sheets.svg?branch=master)](https://travis-ci.org/pvgomes/clojure-google-sheets)
+
 ## Installation
 
 1. Access your [google console developers](https://console.developers.google.com/) and turn on the Google Sheets API and get credentials.json, find for "Authorized redirect URIs" and add `http://localhost:8888`
