@@ -25,6 +25,7 @@ Dylan, Math
 Edward, English
 ...
 ```
+6. the id of the spreadsheet are at [core.clj](src/clojure_google_sheets/core.clj)
 
 ## Moving forward
 Now that we can read at least a sample spreadsheet lets do more, but to do it, we'll start to use our [documentation](./doc/intro.md) see you there.
