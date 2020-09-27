@@ -41,7 +41,7 @@
                            ::scopes           config/scopes
                            ::json-factory     (JacksonFactory/getDefaultInstance)})
         values (sheets-v4/get-values service
-                           "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms"
+                           (:spreadsheet-id (config/sheet-config))
                            "Class Data!A2:E")]
     (if (empty? values)
       (println "No data found.")
