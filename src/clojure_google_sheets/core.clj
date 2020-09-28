@@ -42,9 +42,9 @@
                            ::json-factory     (JacksonFactory/getDefaultInstance)})
         values (sheets-v4/get-values service
                            (:spreadsheet-id (config/sheet-config))
-                           "Class Data!A2:E")]
+                           "Sheet1!A2:E")]
     (if (empty? values)
       (println "No data found.")
-      (println "name, major"))
-    (doseq [[A _B _C _D E] values]
-      (printf "%s, %s\n" A E))))
+      (println "Stock, Current Price"))
+    (doseq [[A B _C _D _E] values]
+      (printf "%s, %s\n" A B))))
