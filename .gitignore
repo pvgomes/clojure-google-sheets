@@ -11,6 +11,7 @@ pom.xml.asc
 .hgignore
 .hg/
 /resources/credentials.json
+/resources/config.edn
 /tokens
 .idea/
 *.iml
