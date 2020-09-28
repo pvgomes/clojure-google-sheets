@@ -5,11 +5,14 @@
            (com.google.api.services.sheets.v4 SheetsScopes)))
 
 (defn sheet-config
-  ([] (-> "template.config.edn"
-          io/resource
-          io/reader
-          java.io.PushbackReader.
-          edn/read))
+  ([]
+   (if (.exists (io/file "resources/config.edn"))
+     (sheet-config "config.edn")
+     (-> "template.config.edn"
+         io/resource
+         io/reader
+         java.io.PushbackReader.
+         edn/read)))
   ([config-file] (-> config-file
                      io/resource
                      io/reader
