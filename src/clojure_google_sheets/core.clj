@@ -44,7 +44,7 @@
                            (:spreadsheet-id (config/sheet-config))
                            "Sheet1!A2:E")]
     (if (empty? values)
-      (println "No data found.")
+      (println "No data found on google sheets, check spreadsheet id and range.")
       (println "Stock, Current Price"))
     (doseq [[A B _C _D _E] values]
       (printf "%s, %s\n" A B))))
