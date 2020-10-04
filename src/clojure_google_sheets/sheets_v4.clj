@@ -61,8 +61,13 @@
                             (-> (UpdateCellsRequest.)
                                 (.setStart
                                   (-> (GridCoordinate.)
-                                      (.setSheetId nil)
-                                      (.setRowIndex (int 0))
+                                      ;sheet id is a range on a sheet. All indexes are zero-based. it means that a first sheet is 0,
+                                      ;Easiest way to find the sheet id is in the browser URL when you open the spreadsheet / sheet: https://docs.google.com/spreadsheets/d/{spreadsheetId}/edit#gid={sheetId}
+                                      ;more info see here https://developers.google.com/resources/api-libraries/documentation/sheets/v4/csharp/latest/classGoogle_1_1Apis_1_1Sheets_1_1v4_1_1Data_1_1GridRange.html
+                                      (.setSheetId (int 271526484))
+                                      ;1 = 0 (first row)
+                                      (.setRowIndex (int 2))
+                                      ;A = 0 (first column)
                                       (.setColumnIndex (int 0))))
                                 (.setRows [(row->row-data values)])
                                 (.setFields "userEnteredValue,userEnteredFormat"))))]
@@ -113,11 +118,10 @@
         values (write-values service
                              (:spreadsheet-id (config/sheet-config))
                              "Sheet2!A2:E"
-                             (java.util.ArrayList. ["Berlin", "Brussels", "Helsinki", "Madrid", "Oslo", "Paris","Stockholm"]))
+                             (java.util.ArrayList. ["POMO3", "10/04/2020", "100", "2.56", "256", "2.56", "0","0"]))
 
         ]
     (println values))
-
 
   )
 
