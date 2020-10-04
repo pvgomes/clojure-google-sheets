@@ -1,5 +1,6 @@
 (ns clojure-google-sheets.sheets-v4
-  (:require [clj-time.core :as time])
+  (:require [clj-time.core :as time]
+            [clojure-google-sheets.config :as config])
   (:import (com.google.api.client.extensions.jetty.auth.oauth2 LocalServerReceiver$Builder)
            (com.google.api.services.sheets.v4 Sheets)
            (com.google.api.services.sheets.v4.model ValueRange
@@ -19,12 +20,16 @@
                                                     RowData
                                                     SheetProperties
                                                     UpdateCellsRequest
-                                                    UpdateSheetPropertiesRequest)))
+                                                    UpdateSheetPropertiesRequest)
+           (com.google.api.client.json.jackson2 JacksonFactory)
+           (com.google.api.client.extensions.java6.auth.oauth2 AuthorizationCodeInstalledApp)
+           (com.google.api.client.googleapis.auth.oauth2 GoogleClientSecrets GoogleAuthorizationCodeFlow$Builder)
+           (com.google.api.client.googleapis.javanet GoogleNetHttpTransport)
+           (com.google.api.client.json.jackson2 JacksonFactory)
+           (com.google.api.client.util.store DataStoreFactory)
+           (com.google.api.services.sheets.v4 Sheets$Builder)))
 
 (set! *warn-on-reflection* true)
-
-(def default-write-sheet-options
-  {:batch-size 10000})
 
 (defn receiver [port]
   (-> (LocalServerReceiver$Builder.)
@@ -40,12 +45,14 @@
                                  .execute)]
     (.getValues response)))
 
-(defn make-update-cells [start rows fields]
-  (-> (Request.)
-      (.setUpdateCells (-> (UpdateCellsRequest.)
-                           (.setStart start)
-                           (.setRows rows)
-                           (.setFields fields)))))
+(defn row->row-data
+  "google-ifies a row (list of columns) of type string?, number? keyword? or CellData."
+  [row]
+  (-> (RowData.)
+      (.setValues (map #(-> (CellData.)
+                            (.setUserEnteredValue
+                              (-> (ExtendedValue.)
+                                  (.setStringValue %)))) row))))
 
 (defn write-values
   [^Sheets gservice id range values]
@@ -54,38 +61,66 @@
                             (-> (UpdateCellsRequest.)
                                 (.setStart
                                   (-> (GridCoordinate.)
-                                      (.setSheetId (int 12))
+                                      (.setSheetId nil)
                                       (.setRowIndex (int 0))
                                       (.setColumnIndex (int 0))))
-                                (.setRows {})
+                                (.setRows [(row->row-data values)])
                                 (.setFields "userEnteredValue,userEnteredFormat"))))]
-
                      (-> gservice
                          (.spreadsheets)
                          (.batchUpdate
                            id
                            (-> (BatchUpdateSpreadsheetRequest.)
-                               (.setRequests write-request)))))
+                                  (.setRequests [write-request])))
+                         .execute)
+))
+
+(defn google-service
+  [{::keys [^String application-name ^DataStoreFactory tokens-directory
+            credentials authorize json-factory scopes access-type port]}]
+  (let [http-transport (GoogleNetHttpTransport/newTrustedTransport)
+        client-secrets (GoogleClientSecrets/load json-factory credentials)
+        flow (-> (GoogleAuthorizationCodeFlow$Builder.
+                   http-transport
+                   json-factory
+                   client-secrets
+                   scopes)
+                 (.setDataStoreFactory tokens-directory)
+                 (.setAccessType access-type)
+                 .build)
+        receiver (receiver port)]
+    (-> (Sheets$Builder.
+          http-transport json-factory
+          (-> (AuthorizationCodeInstalledApp. flow receiver)
+              (.authorize authorize)))
+        (.setApplicationName application-name)
+        .build)))
+
+(comment
+
+
+  (let [service (google-service {::application-name "Google Sheets API Java Quickstart"
+                                 ::access-type      "offline"
+                                 ::port             8888
+                                 ::authorize        "user"
+                                 ::credentials      (config/credentials)
+                                 ::tokens-directory (config/tokens)
+                                 ::scopes           config/scopes
+                                 ::json-factory     (JacksonFactory/getDefaultInstance)})
+        ;values (get-values service
+        ;                   (:spreadsheet-id (config/sheet-config))
+        ;                   "Sheet1!A2:E")
+        values (write-values service
+                             (:spreadsheet-id (config/sheet-config))
+                             "Sheet2!A2:E"
+                             (java.util.ArrayList. ["Berlin", "Brussels", "Helsinki", "Madrid", "Oslo", "Paris","Stockholm"]))
+
+        ]
+    (println values))
+
+
   )
 
-(defn vai []
-  (-> (Request.)
-      (.setUpdateCells
-        (-> (UpdateCellsRequest.)
-            (.setStart
-              (-> (GridCoordinate.)
-                  (.setSheetId sheet-id)
-                  (.setRowIndex (int 0))
-                  (.setColumnIndex (int 0))))
-            (.setRows [(row->row-data first-row)])
-            (.setFields "userEnteredValue,userEnteredFormat"))))
 
-  (-> service
-      (.spreadsheets)
-      (.batchUpdate
-        spreadsheet-id
-        (-> (BatchUpdateSpreadsheetRequest.)
-            (.setRequests first-batch)))
-      (.execute))
-  )
+
 

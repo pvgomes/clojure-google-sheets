@@ -40,9 +40,15 @@
                            ::tokens-directory (config/tokens)
                            ::scopes           config/scopes
                            ::json-factory     (JacksonFactory/getDefaultInstance)})
-        values (sheets-v4/get-values service
-                           (:spreadsheet-id (config/sheet-config))
-                           "Sheet1!A2:E")]
+        ;values (sheets-v4/get-values service
+        ;                   (:spreadsheet-id (config/sheet-config))
+        ;                   "Sheet1!A2:E")
+        values (sheets-v4/append service
+                                     (:spreadsheet-id (config/sheet-config))
+                                     "Sheet2!A2:E"
+                                    ["Heitor em todo lugar"])
+
+        ]
     (if (empty? values)
       (println "No data found on google sheets, check spreadsheet id and range.")
       (println "Stock, Current Price"))
