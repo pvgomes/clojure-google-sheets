@@ -30,4 +30,6 @@
       FileDataStoreFactory.))
 
 (def scopes
-  [SheetsScopes/SPREADSHEETS_READONLY])
+  [SheetsScopes/DRIVE
+   SheetsScopes/DRIVE_FILE
+   SheetsScopes/SPREADSHEETS])
