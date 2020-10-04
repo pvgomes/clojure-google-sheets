@@ -5,9 +5,13 @@
             :url "https://www.eclipse.org/legal/epl-2.0/"}
   :dependencies [[org.clojure/clojure "1.10.0"]
                  [clj-time "0.12.2"]
+                 [prismatic/schema "1.1.12"]
                  [com.google.api-client/google-api-client "1.28.0"]
                  [com.google.oauth-client/google-oauth-client-jetty "1.28.0"]
-                 [com.google.apis/google-api-services-sheets "v4-rev566-1.25.0"]]
+                 [com.google.apis/google-api-services-sheets "v4-rev566-1.25.0"]
+                 [org.clojure/tools.cli "0.4.1"]]
+  :aliases {"lint"            ["do" ["cljfmt" "check"] ["nsorg"]]
+            "lint-fix"        ["do" ["cljfmt" "fix"] ["nsorg" "--replace"]]}
   :main ^:skip-aot clojure-google-sheets.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})
