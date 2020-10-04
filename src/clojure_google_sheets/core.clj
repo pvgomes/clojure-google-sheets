@@ -44,16 +44,20 @@
         values (sheets-v4/get-values service
                            (:spreadsheet-id (config/sheet-config))
                            (:read-sheet-range (config/sheet-config)))
-        write-response (sheets-v4/write-values service
-                                     (:spreadsheet-id (config/sheet-config))
-                                     (:write-sheet-id (config/sheet-config))
-                                     (:start-row (config/sheet-config))
-                                     (java.util.ArrayList. ["POMO3", "10/04/2020", "100", "2.56", "256", "2.56", "0","0"]))
-
-        ]
+        append-response (sheets-v4/append-sheet service
+                                               (:spreadsheet-id (config/sheet-config))
+                                               (:write-sheet-id (config/sheet-config))
+                                               [(java.util.ArrayList. ["POMO3", "10/04/2020", "100", "2.56", "256", "2.56", "0","0"])])
+        ;write overwrites values
+        ;write-response (sheets-v4/write-values service
+        ;                             (:spreadsheet-id (config/sheet-config))
+        ;                             (:write-sheet-id (config/sheet-config))
+        ;                             (:start-row (config/sheet-config))
+        ;                             (java.util.ArrayList. ["POMO3", "10/04/2020", "100", "2.56", "256", "2.56", "0","0"]))
+]
     (if (empty? values)
       (println "No data found on google sheets, check spreadsheet id and range.")
       (println "Stock, Current Price"))
     (doseq [[A B _C _D _E] values]
       (printf "%s, %s\n" A B))
-    (printf "\n Write response: %s" (.toString write-response))))
+    (printf "\n Append response: %s" (.toString append-response))))
