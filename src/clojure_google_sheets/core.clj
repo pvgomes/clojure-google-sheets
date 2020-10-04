@@ -1,7 +1,8 @@
 (ns clojure-google-sheets.core
   (:gen-class)
   (:require [clojure-google-sheets.config :as config]
-            [clojure-google-sheets.sheets-v4 :as sheets-v4])
+            [clojure-google-sheets.sheets-v4 :as sheets-v4]
+            [clojure.tools.cli :refer [parse-opts]])
   (:import (com.google.api.client.extensions.java6.auth.oauth2 AuthorizationCodeInstalledApp)
            (com.google.api.client.googleapis.auth.oauth2 GoogleClientSecrets GoogleAuthorizationCodeFlow$Builder)
            (com.google.api.client.googleapis.javanet GoogleNetHttpTransport)
@@ -31,7 +32,7 @@
         .build)))
 
 (defn -main
-  [& _]
+  [& args]
   (let [service (google-service {::application-name "Google Sheets API Java Quickstart"
                            ::access-type      "offline"
                            ::port             8888
@@ -42,9 +43,17 @@
                            ::json-factory     (JacksonFactory/getDefaultInstance)})
         values (sheets-v4/get-values service
                            (:spreadsheet-id (config/sheet-config))
-                           "Sheet1!A2:E")]
+                           (:read-sheet-range (config/sheet-config)))
+        write-response (sheets-v4/write-values service
+                                     (:spreadsheet-id (config/sheet-config))
+                                     (:write-sheet-id (config/sheet-config))
+                                     (:start-row (config/sheet-config))
+                                     (java.util.ArrayList. ["POMO3", "10/04/2020", "100", "2.56", "256", "2.56", "0","0"]))
+
+        ]
     (if (empty? values)
       (println "No data found on google sheets, check spreadsheet id and range.")
       (println "Stock, Current Price"))
     (doseq [[A B _C _D _E] values]
-      (printf "%s, %s\n" A B))))
+      (printf "%s, %s\n" A B))
+    (printf "\n Write response: %s" (.toString write-response))))
