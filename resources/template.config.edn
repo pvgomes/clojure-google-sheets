@@ -1,1 +1,4 @@
-{:spreadsheet-id "1WNJ-c4qY3qZbnxTOaS9XsEnRJnO6_aO58V_e109U9Ig"}
+{:spreadsheet-id "1WNJ-c4qY3qZbnxTOaS9XsEnRJnO6_aO58V_e109U9Ig"
+ :read-sheet-range "Sheet1!A2:E"
+ :write-sheet-id 271526484
+ :start-row 3}
