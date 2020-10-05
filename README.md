@@ -1,10 +1,11 @@
 # clojure-google-sheets
 
-A clojure google sheets integration example, based on [java quickstart start](https://developers.google.com/sheets/api/quickstart/java) with way more examples
+A clojure google sheets integration example, based on [java quickstart start](https://developers.google.com/sheets/api/quickstart/java) with way more examples.
+This sample use a [ibovespa](http://www.b3.com.br/en_us/market-data-and-indices/indices/broad-indices/ibovespa.htm) prices [this spreadsheet](https://docs.google.com/spreadsheets/d/1WNJ-c4qY3qZbnxTOaS9XsEnRJnO6_aO58V_e109U9Ig/edit#gid=0) where the first tab is the stocks prices to read second one is a simulation for stocks that we bought.  
 
 [![Build Status](https://travis-ci.org/pvgomes/clojure-google-sheets.svg?branch=master)](https://travis-ci.org/pvgomes/clojure-google-sheets)
 
-## Installation
+## Configuration and Running
 
 1. Access your [google console developers](https://console.developers.google.com/) and turn on the Google Sheets API and get credentials.json, find for "Authorized redirect URIs" and add `http://localhost:8888`
 2. Add your credentials.json on [resources](./resources) path (you can find [template.credentials.json](./resources/template.credentials.json) as an example there)
@@ -38,8 +39,6 @@ ALSO3, 24.33
 CGRA4, 27.22
 LEVE3, 17.77
 ENEV3, 47.1
-
- Write response: {"replies":[{}],"spreadsheetId":"1WNJ-c4qY3qZbnxTOaS9XsEnRJnO6_aO58V_e109U9Ig"}%
 ```
 
 ## Moving forward

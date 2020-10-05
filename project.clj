@@ -9,7 +9,8 @@
                  [com.google.api-client/google-api-client "1.28.0"]
                  [com.google.oauth-client/google-oauth-client-jetty "1.28.0"]
                  [com.google.apis/google-api-services-sheets "v4-rev566-1.25.0"]
-                 [org.clojure/tools.cli "0.4.1"]]
+                 [org.clojure/tools.cli "0.4.1"]
+                 [org.clojure/data.json "1.0.0"]]
   :aliases {"lint"            ["do" ["cljfmt" "check"] ["nsorg"]]
             "lint-fix"        ["do" ["cljfmt" "fix"] ["nsorg" "--replace"]]}
   :main ^:skip-aot clojure-google-sheets.core
