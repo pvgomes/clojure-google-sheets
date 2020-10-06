@@ -62,6 +62,10 @@ sheet id is a range on a sheet. All indexes are zero-based. it means that a firs
 The easiest way to find the sheet id is in the browser URL when you open the spreadsheet / sheet: `https://docs.google.com/spreadsheets/d/{spreadsheetId}/edit#gid={sheetId}`
 more info regarding sheet cordinates see [here](https://developers.google.com/resources/api-libraries/documentation/sheets/v4/csharp/latest/classGoogle_1_1Apis_1_1Sheets_1_1v4_1_1Data_1_1GridRange.html)
 
+**revoke google permission**
+
+You can revoke your app access [here](https://myaccount.google.com/security-checkup) find for Third-party access
+
 ## License
 
 Copyright © 2020 FIXME
