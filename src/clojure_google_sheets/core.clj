@@ -38,11 +38,11 @@
 
 (defn append-row
   [service row]
-  (sheets-v4/write-values service
+  (sheets-v4/append-sheet service
        (:spreadsheet-id (config/sheet-config))
        (:write-sheet-id (config/sheet-config))
-       (:start-row (config/sheet-config))
-       (java.util.ArrayList. row)))
+       ;(:start-row (config/sheet-config))
+       [(java.util.ArrayList. row)]))
 
 (defn -main
   [& args]

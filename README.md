@@ -7,6 +7,8 @@ This sample use a [ibovespa](http://www.b3.com.br/en_us/market-data-and-indices/
 
 ## Configuration and Running
 
+[Video how to integrate using this repo](https://www.youtube.com/watch?v=posNZFWSEgU)
+
 1. Access your [google console developers](https://console.developers.google.com/) and turn on the Google Sheets API and get credentials.json, find for "Authorized redirect URIs" and add `http://localhost:8888`
 2. Add your credentials.json on [resources](./resources) path (you can find [template.credentials.json](./resources/template.credentials.json) as an example there)
 3. good to go, just run `lein run`
